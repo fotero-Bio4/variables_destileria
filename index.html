@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIO4 — Variables Destilería</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Navbar ──────────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="navbar-left">
+      <img src="img/logo-white.png" alt="BIO4" class="logo-img">
+      <span class="navbar-brand">Variables Destilería</span>
+    </div>
+    <div class="navbar-right">
+      <span id="headerBadge" class="nav-user">Acceso</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ── PANTALLA: Login ──────────────────────────────────────────────── -->
+  <div id="screenLogin">
+    <div class="login-wrap">
+      <div class="card">
+        <div class="login-icon">⚗️</div>
+        <div class="login-title">Variables Destilería</div>
+        <div class="login-sub">Planta de Bioetanol Río Cuarto.<br>Ingresá tus credenciales para acceder al formulario de carga.</div>
+
+        <div class="field">
+          <label for="inputMail">Mail <span class="req">*</span></label>
+          <input id="inputMail" type="email" placeholder="usuario@bio4.com.ar" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="inputPss">Contraseña <span class="req">*</span></label>
+          <input id="inputPss" type="password" placeholder="Tu contraseña" autocomplete="current-password">
+        </div>
+
+        <div class="submit-area">
+          <button id="btnLogin" class="btn-login">Ingresar</button>
+        </div>
+        <div id="msgLogin" class="msg hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANTALLA: Formulario de carga ────────────────────────────────── -->
+  <div id="screenForm" class="hidden">
+    <h1 class="page-title">Carga de Variables</h1>
+    <div class="card card-wide">
+      <p class="hint">Completá los valores del día. Los campos con <span class="req">*</span> son obligatorios.</p>
+
+      <div class="grid-3">
+        <div class="field">
+          <label for="campo_fecha">Fecha <span class="req">*</span></label>
+          <input id="campo_fecha" type="date">
+        </div>
+      </div>
+
+      <div class="grid-divider"></div>
+
+      <div id="formFields" class="grid-3"></div>
+
+      <div class="grid-divider"></div>
+
+      <div class="btn-actions">
+        <button id="btnRevisar" class="btn btn-green">Revisar datos →</button>
+        <button id="btnSalir" class="btn btn-red">Salir</button>
+      </div>
+      <div id="msgForm" class="msg hidden"></div>
+    </div>
+  </div>
+
+  <!-- ── PANTALLA: Validación ─────────────────────────────────────────── -->
+  <div id="screenValidacion" class="hidden">
+    <h1 class="page-title">Confirmá los datos a cargar</h1>
+    <div class="card card-wide">
+      <p class="hint">Revisá que todo sea correcto antes de guardar. Si algo está mal, volvé a editar.</p>
+
+      <table id="validacionTabla" class="review-table"></table>
+
+      <div class="grid-divider"></div>
+
+      <div class="btn-actions">
+        <button id="btnConfirmar" class="btn btn-green">✓ Confirmar y guardar</button>
+        <button id="btnVolverEditar" class="btn btn-grey">← Volver a editar</button>
+      </div>
+      <div id="msgValidacion" class="msg hidden"></div>
+    </div>
+  </div>
+
+  <!-- ── PANTALLA: Confirmación ───────────────────────────────────────── -->
+  <div id="screenConfirmacion" class="hidden">
+    <div class="card card-confirm">
+      <div class="confirm-icon">✅</div>
+      <h2 class="confirm-title">¡Datos cargados!</h2>
+      <p class="confirm-text">
+        Los valores fueron guardados correctamente en el sistema BIO4.<br>
+        Podés cargar otro registro o cerrar esta ventana.
+      </p>
+      <button id="btnNuevaCarga" class="btn btn-green">Cargar otro registro</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-left">© BIO4 — Todos los derechos reservados.</span>
+    <span class="footer-right">
+      <span class="footer-contact">✉ soporte.sistemas@bio4.com.ar</span>
+      <span class="footer-contact">✆ +54 9 3586 55-5555</span>
+    </span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
