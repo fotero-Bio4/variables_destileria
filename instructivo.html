@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructivo — Variables Destilería BIO4</title>
+  <style>
+    :root{
+      --navbar:#2f343d; --navbar-hl:#3b414c;
+      --green:#7cb342; --green-hl:#8bc34a; --green-dark:#5a9216;
+      --gold:#f0c419; --red:#d9534f;
+      --bg:#f4f6f8; --card:#fff; --text:#2c3038; --label:#3a3f47;
+      --muted:#6b7280; --border:#e6e8eb; --soft:#f6f7f9;
+      --blue:#2563eb; --blue-bg:#e8f0fb;
+      --warn-bg:#fef6e7; --warn-border:#f0c419; --warn-text:#8a6400;
+      --ok-bg:#eef7e6; --ok-border:#8cc85a;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+
+    /* Navbar */
+    .navbar{background:var(--navbar);color:#fff;padding:0 24px;box-shadow:0 1px 6px rgba(0,0,0,.15);}
+    .navbar-inner{max-width:980px;margin:0 auto;height:58px;display:flex;align-items:center;gap:12px;}
+    .logo-badge{width:34px;height:34px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+    .navbar-brand{font-size:17px;font-weight:600;}
+    .navbar-sub{font-size:12px;opacity:.7;margin-left:auto;}
+
+    /* Header */
+    .doc-head{max-width:980px;margin:0 auto;padding:34px 24px 6px;text-align:center;}
+    .doc-head h1{font-size:30px;font-weight:800;color:var(--green);}
+    .doc-head h1::after{content:"";display:block;width:180px;height:4px;background:var(--gold);border-radius:2px;margin:12px auto 0;}
+    .doc-head p{color:var(--muted);font-size:14px;margin-top:14px;}
+
+    /* Tabs */
+    .tabs{max-width:980px;margin:26px auto 0;padding:0 24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+    .tab{flex:1;min-width:240px;cursor:pointer;border:2px solid var(--border);background:#fff;border-radius:12px;padding:18px 20px;transition:all .15s;text-align:left;}
+    .tab:hover{border-color:var(--green);}
+    .tab.active{border-color:var(--green);background:var(--ok-bg);box-shadow:0 0 0 3px rgba(124,179,66,.15);}
+    .tab .t-ico{font-size:24px;}
+    .tab .t-title{font-size:17px;font-weight:800;color:var(--label);margin-top:4px;}
+    .tab .t-desc{font-size:12.5px;color:var(--muted);margin-top:3px;}
+
+    /* Content */
+    main{max-width:980px;margin:0 auto;padding:24px;}
+    .panel{display:none;}
+    .panel.active{display:block;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px 28px;margin-bottom:20px;box-shadow:0 4px 18px rgba(0,0,0,.05);}
+    .card h2{font-size:20px;color:var(--green-dark);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+    .card h2 .n{background:var(--green);color:#fff;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;}
+    .card h3{font-size:15px;color:var(--label);margin:18px 0 8px;}
+    .card p{font-size:14.5px;color:var(--text);margin-bottom:10px;}
+    .lead{color:var(--muted);font-size:14px;margin-bottom:18px;}
+
+    ol.steps{list-style:none;counter-reset:s;padding:0;margin:6px 0;}
+    ol.steps>li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--border);font-size:14.5px;}
+    ol.steps>li:last-child{border-bottom:none;}
+    ol.steps>li::before{content:counter(s);position:absolute;left:0;top:9px;width:28px;height:28px;background:var(--soft);border:1.5px solid var(--green);color:var(--green-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+    ul.bullets{margin:6px 0 10px 22px;font-size:14.5px;}
+    ul.bullets li{margin-bottom:6px;}
+
+    code{background:var(--soft);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-family:'Consolas',monospace;font-size:13px;color:#b3306e;}
+    .key{font-weight:700;color:var(--label);}
+
+    table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+    th,td{border:1px solid var(--border);padding:9px 12px;text-align:left;}
+    th{background:var(--navbar);color:#fff;font-weight:600;}
+    tr:nth-child(even) td{background:var(--soft);}
+
+    .note{border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;display:flex;gap:10px;align-items:flex-start;}
+    .note .ico{font-size:18px;flex-shrink:0;line-height:1.3;}
+    .note.warn{background:var(--warn-bg);border:1px solid var(--warn-border);color:var(--warn-text);}
+    .note.info{background:var(--blue-bg);border:1px solid #9bc0f5;color:#1e40af;}
+    .note.ok{background:var(--ok-bg);border:1px solid var(--ok-border);color:var(--green-dark);}
+    .note b{font-weight:800;}
+
+    .pill{display:inline-block;background:var(--green);color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;}
+
+    footer{text-align:center;padding:24px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--border);background:#fff;}
+    a{color:var(--green-dark);}
+
+    @media print{.tabs,.navbar-sub{display:none;}.panel{display:block!important;}.tab{display:none;}.card{box-shadow:none;break-inside:avoid;}}
+    @media(max-width:600px){.doc-head h1{font-size:24px;}.card{padding:20px 18px;}}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <span class="logo-badge">⚗️</span>
+    <span class="navbar-brand">Variables Destilería</span>
+    <span class="navbar-sub">BIO4 — Planta Río Cuarto</span>
+  </div>
+</nav>
+
+<div class="doc-head">
+  <h1>Instructivo del Sistema</h1>
+  <p>Carga de variables de la destilería · Planta de Bioetanol Río Cuarto</p>
+</div>
+
+<!-- Selector de audiencia -->
+<div class="tabs">
+  <div class="tab active" data-tab="admin">
+    <div class="t-ico">🛠️</div>
+    <div class="t-title">Para Administradores</div>
+    <div class="t-desc">Gestionar usuarios, acceder al Excel y capacitar operadores.</div>
+  </div>
+  <div class="tab" data-tab="oper">
+    <div class="t-ico">👷</div>
+    <div class="t-title">Para Operadores</div>
+    <div class="t-desc">Iniciar sesión en la app y cargar los datos del día.</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ══════════════ ADMINISTRADORES ══════════════ -->
+  <section class="panel active" id="panel-admin">
+
+    <div class="card">
+      <h2><span class="n">i</span> ¿Cómo funciona el sistema?</h2>
+      <p class="lead">Entender estas tres piezas alcanza para administrar todo el sistema.</p>
+      <ul class="bullets">
+        <li><span class="key">La aplicación web</span> — donde los operadores inician sesión y cargan los datos. Está publicada en Netlify (es solo una página, no requiere instalación).</li>
+        <li><span class="key">El archivo Excel <code>VariablesDestileria.xlsx</code></span> — es la base de datos. Vive en el OneDrive de <code>fotero@bio4.com.ar</code>. Todo lo que cargan los operadores cae acá, y los usuarios habilitados se definen acá.</li>
+        <li><span class="key">La conexión</span> — la app lee y escribe el Excel en tiempo real. <b>No hay base de datos aparte</b>: el Excel ES la base de datos.</li>
+      </ul>
+      <div class="note info"><span class="ico">ℹ️</span><div>Cualquier cambio que hagas en el Excel (por ejemplo dar de alta un usuario) tiene efecto <b>inmediato</b>, sin necesidad de redeployar ni reiniciar nada.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">1</span> Acceder al Excel</h2>
+      <p>El archivo es <code>VariablesDestileria.xlsx</code> y está en el OneDrive / SharePoint de <code>fotero@bio4.com.ar</code>. Para administrarlo necesitás permiso de edición sobre ese archivo (pedíselo al dueño del archivo o a Sistemas).</p>
+      <p>Tiene dos hojas:</p>
+      <table>
+        <tr><th>Hoja</th><th>Para qué sirve</th></tr>
+        <tr><td><code>usarios</code></td><td>Define <b>quién puede entrar</b> a la app (usuarios y contraseñas).</td></tr>
+        <tr><td><code>DB</code></td><td>Guarda <b>los datos cargados</b>. Cada carga de un operador es una fila nueva.</td></tr>
+      </table>
+      <div class="note warn"><span class="ico">⚠️</span><div>La hoja de usuarios se llama <code>usarios</code> (<b>sin la primera "u"</b>). No la renombres: la app la busca con ese nombre exacto.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span> Crear o editar usuarios</h2>
+      <p>Los usuarios se administran en la hoja <code>usarios</code>, que tiene 3 columnas:</p>
+      <table>
+        <tr><th>Columna</th><th>Contenido</th><th>Ejemplo</th></tr>
+        <tr><td><b>A — Mail</b></td><td>El mail que el operador escribe para iniciar sesión.</td><td>jperez@bio4.com.ar</td></tr>
+        <tr><td><b>B — Nombre</b></td><td>Nombre y apellido. Es el que aparece en el saludo <i>"Bienvenido…"</i> y el que queda registrado en la columna <b>Usuario</b> de la hoja DB.</td><td>Juan Pérez</td></tr>
+        <tr><td><b>C — Pss</b></td><td>La contraseña del operador.</td><td>1234</td></tr>
+      </table>
+      <h3>Para dar de alta un usuario nuevo:</h3>
+      <ol class="steps">
+        <li>Abrí la hoja <code>usarios</code>.</li>
+        <li>Escribí en la <b>primera fila libre</b> (sin dejar filas vacías en el medio) el Mail, el Nombre y la contraseña en las columnas A, B y C.</li>
+        <li>Guardá el archivo. El usuario ya puede iniciar sesión — <b>el cambio es inmediato</b>.</li>
+      </ol>
+      <h3>Para cambiar una contraseña o un nombre:</h3>
+      <p>Editá directamente la celda correspondiente y guardá. Para dar de baja un usuario, borrá su fila completa.</p>
+      <div class="note warn"><span class="ico">⚠️</span><div><b>No cambies el orden de las columnas</b> (Mail, Nombre, Pss) ni dejes filas vacías intercaladas entre usuarios.</div></div>
+      <div class="note info"><span class="ico">🔒</span><div>Recomendación: usá una contraseña distinta por persona y evitá compartir credenciales. La contraseña puede ser números o texto.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">3</span> Ver y controlar los datos cargados</h2>
+      <p>Todo lo que cargan los operadores aparece en la hoja <code>DB</code>, una fila por cada carga. Las columnas son:</p>
+      <table>
+        <tr><th>Columna</th><th>Dato</th></tr>
+        <tr><td>Fecha</td><td>Fecha del registro (formato DD/MM/AAAA).</td></tr>
+        <tr><td>GL IC445 … GL agua lavadora TL440</td><td>Las 8 variables numéricas cargadas.</td></tr>
+        <tr><td>Usuario</td><td>El nombre de quién cargó el dato (la columna B de <code>usarios</code>).</td></tr>
+      </table>
+      <div class="note warn"><span class="ico">🚫</span><div><b>No modifiques, renombres, reordenes, agregues ni borres columnas de la hoja DB.</b> La app ubica cada valor por el nombre exacto del encabezado; si tocás los encabezados, la carga se rompe.<br><br>Si necesitás <b>agregar o quitar una variable del formulario</b>, no alcanza con tocar el Excel: hay que actualizar también la app. <b>Contactá a Sistemas</b> para ese cambio.</div></div>
+      <div class="note ok"><span class="ico">✅</span><div>Sí podés: leer, filtrar, copiar los datos a otra hoja, hacer tablas dinámicas o gráficos <b>en otras hojas o archivos</b>. Mientras no toques los encabezados ni las filas de la hoja DB, todo bien.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">4</span> Capacitar a los operadores</h2>
+      <p>Los operadores solo usan la app (no tocan el Excel). Para capacitarlos:</p>
+      <ol class="steps">
+        <li>Dales de alta en la hoja <code>usarios</code> (paso 2) y entregales su <b>mail y contraseña</b>.</li>
+        <li>Pasales el <b>link de la app</b> y mostrales la pestaña <span class="pill">Para Operadores</span> de este mismo instructivo.</li>
+        <li>Hacé una carga de prueba juntos: login → completar variables → revisar → confirmar.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">5</span> Mantenimiento y soporte</h2>
+      <ul class="bullets">
+        <li><span class="key">Código fuente:</span> <a href="https://github.com/fotero-Bio4/variables_destileria">github.com/fotero-Bio4/variables_destileria</a></li>
+        <li><span class="key">Hosting:</span> Netlify (deploy automático con cada cambio en GitHub).</li>
+        <li><span class="key">Si el login deja de funcionar para todos</span> con un error de autenticación, puede haber vencido la credencial de conexión con Microsoft (Azure). En ese caso, contactá a Sistemas para renovarla.</li>
+      </ul>
+      <div class="note info"><span class="ico">✉️</span><div>Soporte: <a href="mailto:soporte.sistemas@bio4.com.ar">soporte.sistemas@bio4.com.ar</a> · ✆ +54 9 3586 55-5555</div></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ OPERADORES ══════════════ -->
+  <section class="panel" id="panel-oper">
+
+    <div class="card">
+      <h2><span class="n">i</span> ¿Qué vas a hacer?</h2>
+      <p class="lead">Iniciar sesión en la aplicación y cargar los valores de las variables de la destilería del día. Es rápido: tres pantallas.</p>
+      <ul class="bullets">
+        <li>No necesitás instalar nada: se usa desde el navegador (computadora o celular).</li>
+        <li>Tus credenciales (mail y contraseña) te las da el administrador.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">1</span> Abrir la aplicación e iniciar sesión</h2>
+      <ol class="steps">
+        <li>Abrí el <b>link de la app</b> que te pasó el administrador.</li>
+        <li>Escribí tu <b>Mail</b> (ej. <code>jperez@bio4.com.ar</code>) y tu <b>Contraseña</b>.</li>
+        <li>Tocá <span class="pill">Ingresar</span>.</li>
+      </ol>
+      <p>Si los datos son correctos, arriba a la derecha vas a ver <b>"👤 Bienvenido [tu nombre]"</b> y pasás al formulario.</p>
+      <div class="note warn"><span class="ico">⚠️</span><div>Si aparece <i>"Mail o contraseña incorrectos"</i>, revisá que el mail esté bien escrito y que la contraseña sea la que te dieron. Si sigue fallando, avisá al administrador.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span> Cargar los datos</h2>
+      <ol class="steps">
+        <li>La <b>Fecha</b> ya viene cargada con la del día. Solo cambiala si estás registrando otro día.</li>
+        <li>Completá <b>todas</b> las variables con su valor numérico (podés usar decimales con coma o punto, según tu teclado).</li>
+        <li>Cuando terminaste, tocá <span class="pill">Revisar datos →</span>.</li>
+      </ol>
+      <div class="note info"><span class="ico">ℹ️</span><div>Todos los campos son obligatorios. Si dejás uno vacío o ponés algo que no es un número, la app te avisa y te marca cuál corregir.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">3</span> Revisar y confirmar</h2>
+      <ol class="steps">
+        <li>Vas a ver una <b>tabla con todos los datos</b> que estás por guardar (fecha, tu nombre y cada variable).</li>
+        <li>Revisá que esté todo correcto.
+          <ul class="bullets" style="margin-top:6px;">
+            <li>¿Está bien? → tocá <span class="pill">✓ Confirmar y guardar</span>.</li>
+            <li>¿Hay un error? → tocá <b>← Volver a editar</b> y corregí.</li>
+          </ul>
+        </li>
+        <li>Si todo salió bien, aparece la pantalla <b>"¡Datos cargados!"</b> ✅. Listo, ya quedó registrado.</li>
+      </ol>
+      <div class="note ok"><span class="ico">✅</span><div>Recién cuando ves "¡Datos cargados!" el registro quedó guardado. Antes de eso, nada se escribió.</div></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">4</span> Cargar otro registro o salir</h2>
+      <ul class="bullets">
+        <li>Para cargar <b>otro registro</b>, tocá <span class="pill">Cargar otro registro</span> y repetí el paso 2.</li>
+        <li>Para <b>terminar</b>, tocá <b>Salir</b> (cierra tu sesión) o simplemente cerrá la pestaña del navegador.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">?</span> Problemas frecuentes</h2>
+      <table>
+        <tr><th>Si pasa esto…</th><th>Hacé esto</th></tr>
+        <tr><td>"Mail o contraseña incorrectos"</td><td>Revisá el mail y la contraseña. Si no entra, pedíle al administrador que verifique tus datos.</td></tr>
+        <tr><td>"Falta completar…" o "debe ser numérico"</td><td>Completá el campo que te marca; las variables solo aceptan números.</td></tr>
+        <tr><td>"Error de conexión"</td><td>Revisá tu conexión a internet y volvé a intentar. Si persiste, avisá a Sistemas.</td></tr>
+        <tr><td>No sé el link de la app</td><td>Pedíselo al administrador.</td></tr>
+      </table>
+      <div class="note info"><span class="ico">✉️</span><div>Soporte: <a href="mailto:soporte.sistemas@bio4.com.ar">soporte.sistemas@bio4.com.ar</a> · ✆ +54 9 3586 55-5555</div></div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © BIO4 — Variables Destilería · Planta de Bioetanol Río Cuarto · Solo personal autorizado
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var id = tab.getAttribute('data-tab');
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      document.getElementById('panel-' + id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
